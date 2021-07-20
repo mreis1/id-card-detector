@@ -15,9 +15,12 @@ sys.path.append("..")
 from utils import label_map_util
 from utils import visualization_utils as vis_util
 
+
+image_path = 'test_images/image2.png'
+output_path = 'test_images/image2out.png'
+IMAGE_NAME = 'test_images/image2.png'
 # Name of the directory containing the object detection module we're using
 MODEL_NAME = 'model'
-IMAGE_NAME = 'test_images/image1.png'
 
 # Grab path to current working directory
 CWD_PATH = os.getcwd()
@@ -47,13 +50,13 @@ category_index = label_map_util.create_category_index(categories)
 # Load the Tensorflow model into memory.
 detection_graph = tf.Graph()
 with detection_graph.as_default():
-    od_graph_def = tf.GraphDef()
-    with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
+    od_graph_def = tf.compat.v1.GraphDef()
+    with tf.io.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
         serialized_graph = fid.read()
         od_graph_def.ParseFromString(serialized_graph)
         tf.import_graph_def(od_graph_def, name='')
 
-    sess = tf.Session(graph=detection_graph)
+    sess = tf.compat.v1.Session(graph=detection_graph)
 
 # Define input and output tensors (i.e. data) for the object detection classifier
 
